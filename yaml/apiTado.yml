@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+ name: api.tado
+ labels:
+  type: rest
+  slot: smarthome
+spec:
+ containers:
+  - image: expovin/api.tado
+    name: api-tado
+    volumeMounts:
+    - name: config
+      mountPath: "/usr/src/app/lib"
+      readOnly: true                 
+    ports: 
+     - containerPort: 3000       
+    env:
+     - name :  PORT
+       value: "3000"
+     - name : TZ
+       value: "Europe/Rome"
+ volumes:
+  - name: config
+    secret:
+     secretName: api-tado
