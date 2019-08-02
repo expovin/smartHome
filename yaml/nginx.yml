@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: reverse.proxy
+spec:
+ replicas: 1
+ selector:
+  matchLabels:
+   app: reverse-proxy
+ template:
+  metadata:
+   labels:
+    app: reverse-proxy
+  spec:
+   containers:
+    - image : nginx:latest
+      name: reverse-proxy
+      ports:
+       - name: nodejs-port
+         containerPort: 80     
+      env:
+      - name: TZ
+        value: "Europe/Rome"
+      volumeMounts:
+       - name : nginx-config
+         mountPath: /etc/nginx
+   volumes:
+    - name : nginx-config
+      configMap:
+        name: nginx-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reverse-proxy
+spec:
+  selector:
+    app: reverse-proxy
+  type: NodePort
+  ports:
+    - name : http
+      protocol: TCP
+      port: 31080
+      nodePort: 31080
+      targetPort: nodejs-port
