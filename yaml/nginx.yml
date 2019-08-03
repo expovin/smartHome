@@ -23,12 +23,16 @@ spec:
       - name: TZ
         value: "Europe/Rome"
       volumeMounts:
-       - name : nginx-config
+       - name : config-volumes
          mountPath: /etc/nginx
+         readOnly: true
    volumes:
-    - name : nginx-config
+    - name : config-volumes
       configMap:
         name: nginx-config
+        items:
+         - key : nginx.conf
+           path: nginx.conf
 ---
 apiVersion: v1
 kind: Service

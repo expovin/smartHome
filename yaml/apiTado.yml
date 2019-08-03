@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
- name: api.tado
+ name: api-tado
  labels:
   type: rest
   slot: smarthome
@@ -11,11 +11,11 @@ spec:
  replicas: 1
  selector:
   matchLabels:
-   app: api.tado
+   app: api-tado
  template:
   metadata:
    labels:
-    app: api.tado
+    app: api-tado
   spec:
    containers:
     - image: expovin/api.tado
@@ -45,5 +45,6 @@ spec:
     app: api-tado
   ports:
     - protocol: TCP
+      name : http
       port: 3000
       targetPort: 3000
