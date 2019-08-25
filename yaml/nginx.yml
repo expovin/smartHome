@@ -33,6 +33,8 @@ spec:
         items:
          - key : nginx.conf
            path: nginx.conf
+         - key : mongo.conf
+           path: mongo.conf           
 ---
 apiVersion: v1
 kind: Service
@@ -47,4 +49,9 @@ spec:
       protocol: TCP
       port: 31080
       nodePort: 31080
+      targetPort: nodejs-port
+    - name : mongo
+      protocol: TCP
+      port: 31027
+      nodePort: 31027
       targetPort: nodejs-port
